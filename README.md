@@ -58,6 +58,20 @@ https://tanjilahmed.com/user-management-docs
 
 ---
 
+## Users for Testing
+
+After running the `php artisan db:seed` command, the following users will be created:
+
+### Admin
+
+- **Email**: `admin@example.com`
+- **Password**: `admin123`
+
+### User
+
+- **Email**: `user@example.com`
+- **Password: `user123`
+
 ## Table of Contents
 
 1. [Authentication](#authentication)
