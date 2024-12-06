@@ -35,6 +35,7 @@ Route::middleware(['auth:api'])->group(function () {
             Route::post('{id}/assign-role', [UserController::class, 'assignRole']);
             Route::post('{id}/remove-role', [UserController::class, 'removeRole']);
             Route::post('{id}/assign-permission', [UserController::class, 'assignPermission']);
+            Route::post('{id}/remove-permission', [UserController::class, 'removePermission']);
         });
         // Role Routes
         Route::apiResource('roles', RoleController::class);

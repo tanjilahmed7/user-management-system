@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-left: 4px solid #ccc;
+            overflow-x: auto;
+        }
+
+        code {
+            background: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        ul {
+            margin: 10px 0;
+            padding: 0 20px;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        .endpoint {
+            margin-bottom: 20px;
+        }
+
+        .response,
+        .request-body {
+            margin: 10px 0;
+        }
+
+        .response pre,
+        .request-body pre {
+            background: #eef;
+        }
+
+        .route-list {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .route-list h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .route-list table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+        }
+
+        .route-list th,
+        .route-list td {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 10px;
+        }
+
+        .route-list th {
+            background-color: #f2f2f2;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .route-list td code {
+            background-color: #eaf5ff;
+            padding: 2px 4px;
+            border-radius: 3px;
+            color: #0056b3;
+        }
+
+        .route-list tr:nth-child(even) {
+            background-color: #f4f4f4;
+        }
+
+        .route-list tr:hover {
+            background-color: #eaeaea;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1> API Documentation</h1>
+
+    <div class="route-list">
+        <h2>API Routes Overview</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Method</th>
+                <th>Endpoint</th>
+                <th>Description</th>
+                <th>Middleware</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>POST</td>
+                <td><code>/register</code></td>
+                <td>Registers a new user.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/login</code></td>
+                <td>Authenticates a user and returns a token.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/logout</code></td>
+                <td>Logs out the authenticated user.</td>
+                <td>
+                    <code>auth:api</code>
+                </td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/welcome</code></td>
+                <td>Displays the user dashboard.</td>
+                <td><code>auth:api</code></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/articles</code></td>
+                <td>Lists all articles.</td>
+                <td><code>auth:api, permission:view-post</code></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/articles/{id}</code></td>
+                <td>Displays a specific article.</td>
+                <td><code>auth:api, permission:view-post</code></td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/articles</code></td>
+                <td>Creates a new article.</td>
+                <td><code>auth:api, permission:create-post</code></td>
+            </tr>
+            <tr>
+                <td>PUT</td>
+                <td><code>/articles/{id}</code></td>
+                <td>Updates an article.</td>
+                <td><code>auth:api, permission:edit-post</code></td>
+            </tr>
+            <tr>
+                <td>DELETE</td>
+                <td><code>/articles/{id}</code></td>
+                <td>Deletes an article.</td>
+                <td><code>auth:api, permission:delete-post</code></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/users</code></td>
+                <td>Lists all users (Admin only).</td>
+                <td><code>auth:api, role:Admin</code></td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/users/{id}/assign-role</code></td>
+                <td>Assigns a role to a user (Admin only).</td>
+                <td><code>auth:api, role:Admin</code></td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/users/{id}/remove-role</code></td>
+                <td>Removes a role from a user (Admin only).</td>
+                <td><code>auth:api, role:Admin</code></td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/users/{id}/assign-permission</code></td>
+                <td>Assigns a permission to a user (Admin only).</td>
+                <td><code>auth:api, role:Admin</code></td>
+            </tr>
+
+            <tr>
+                <td>POST</td>
+                <td><code>/users/{id}/remove-permission</code></td>
+                <td>Removes a permission from a user (Admin only).</td>
+                <td><code>auth:api, role:Admin</code></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/roles</code></td>
+                <td>Lists all roles (Admin only).</td>
+                <td><code>auth:api, role:Admin</code></td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/roles</code></td>
+                <td>Creates a new role (Admin only).</td>
+                <td><code>auth:api, role:Admin</code></td>
+            </tr>
+            <tr>
+                <td>GET</td>
+                <td><code>/permissions</code></td>
+                <td>Lists all permissions (Admin only).</td>
+                <td><code>auth:api, role:Admin</code></td>
+            </tr>
+            <tr>
+                <td>POST</td>
+                <td><code>/permissions</code></td>
+                <td>Creates a new permission (Admin only).</td>
+                <td><code>auth:api, role:Admin</code></td>
+            </tr>
+            </tbody>
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Authentication API</h2>
+    <div class="endpoint">
+        <h3>Register</h3>
+        <hr>
+        <p>
+            <strong>URL:</strong>
+            <code>/register</code>
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Register a new user.
+        </p>
+        <div class="request-body">
+            <p><strong>Request Body:</strong></p>
+            <pre>
+{
+    "name" : "string (required, max: 255)",
+    "email" : "string (required, email, max: 255, unique: users)",
+     "password": {
+        "required",
+        "string",
+        "confirmed",
+        "min: 8",
+        "mixedCase",
+        "numbers",
+        "symbols",
+        "uncompromised"
+    }
+}
+        </pre>
+        </div>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "token": "string (token)",
+}</pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Login</h3>
+        <hr>
+        <p>
+            <strong>URL:</strong>
+            <code>/login</code>
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Login a user.
+        </p>
+        <div class="request-body">
+            <p><strong>Request Body:</strong></p>
+            <pre>
+{
+    "email": "string (required, email, max: 255)",
+    "password": "string (required)"
+}</pre>
+        </div>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>{
+    "token": "string (token)",
+}</pre>
+        </div>
+    </div>
+
+
+    <div class="endpoint">
+        <h3>Logout</h3>
+        <hr>
+        <p>
+            <strong>URL:</strong>
+            <code>/logout</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Log the user out of the application.
+        </p>
+
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "message": "User logged out successfully"
+}</pre>
+        </div>
+    </div>
+
+
+    <h2>Admin</h2>
+    <hr>
+    <h3>Roles</h3>
+    <hr>
+
+    <div class="endpoint">
+        <h3>Create Role</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/roles</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Create a new role.
+        </p>
+        <div class="request-body">
+            <p><strong>Request Body:</strong>
+            <pre>
+{
+    "name": "string (required, max: 255)"
+}</pre>
+
+            </p>
+
+        </div>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "name": "string",
+    "updated_at": "timestamp",
+    "created_at": "timestamp",
+    "id": "integer"
+}</pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>List Roles</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/roles</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>GET</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            List all roles.
+        </p>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+[
+    {
+        "id": "integer",
+        "name": "string",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+    }
+]
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Update Role</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/roles/{id}</code>
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>PUT</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization
+                : Bearer {token}</code>
+            </code>
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            Update a role.
+        </p>
+
+        <div class="request-body">
+            <p><strong>Request Body:</strong></p>
+            <pre>
+{
+    "name": "string (required, max: 255)"
+}</pre>
+        </div>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "message": "Role updated successfully"
+}</pre>
+        </div>
+
+    </div>
+
+
+    <div class="endpoint">
+        <h3>Delete Role</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/roles/{id}</code>
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>DELETE</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization
+                : Bearer {token}</code>
+            </code>
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            Delete a role.
+        </p>
+
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "message": "Role deleted successfully"
+}</pre>
+        </div>
+
+    </div>
+
+    <h3>Permissions</h3>
+    <hr>
+
+    <div class="endpoint">
+        <h3>Create Permission</h3>
+        <p>
+            <strong>URL:</strong>
+            <code>/permissions</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Create a new permission.
+        </p>
+        <div class="request-body">
+            <p><strong>Request Body:</strong>
+            <pre>
+{
+    "name": "string",
+}</pre>
+
+            </p>
+
+        </div>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "name": "string",
+    "updated_at": "timestamp",
+    "created_at": "timestamp",
+    "id": "integer"
+}</pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>List Permissions</h3>
+        <p>
+            <strong>URL:</strong>
+            <code>/permissions</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>GET</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            List all permissions.
+        </p>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+[
+    {
+        "id": "integer",
+        "name": "string",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+    }
+]
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Update Permission</h3>
+        <p>
+            <strong>URL:</strong>
+            <code>/permissions/{id}</code>
+        </p>
+        <p>
+            <strong>Method:</strong
+            <code>PUT</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization
+                : Bearer {token}</code>
+            </code>
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            Update a permission.
+        </p>
+
+        <div class="request-body">
+            <p><strong>Request Body:</strong></p>
+            <pre>
+{
+    "name": "string (required, max: 255)"
+}</pre>
+        </div>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "id": "integer",
+    "name": "string",
+    "created_at": "timestamp",
+    "updated_at": "timestamp"
+}</pre>
+        </div>
+
+    </div>
+
+    <div class="endpoint">
+        <h3>Delete Permission</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/permissions/{id}</code>
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>DELETE</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization
+                : Bearer {token}</code>
+            </code>
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            Delete a permission.
+        </p>
+
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "message": "Permission deleted successfully"
+}</pre>
+        </div>
+
+    </div>
+
+    <h3>Users</h3>
+
+
+    <div class="endpoint">
+        <h3>List Users</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/users</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>GET</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            List all users.
+        </p>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+[
+    {
+        "id": "integer",
+        "name": "string",
+        "email": "string",
+        "email_verified_at": "timestamp",
+        "created_at":  "timestamp",
+        "updated_at": "timestamp",
+        "roles": [
+            {
+                "id": "integer",
+                "name": "string",
+                "created_at":  "timestamp",
+                "updated_at":  "timestamp",
+                "pivot": {
+                    "user_id": "integer",
+                    "role_id": "integer"
+                }
+            }
+        ],
+        "permissions": [
+            {
+                "id": "integer",
+                "name": "string",
+                "created_at": "timestamp",
+                "updated_at":  "timestamp",
+                "pivot": {
+                    "user_id": "integer",
+                    "permission_id": "integer"
+                }
+            },
+
+        ]
+    }
+]
+            </pre>
+        </div>
+
+    </div>
+
+
+    <div class="endpoint">
+        <h3>Assign Role</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/users/{id}/assign-role</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Assign a role to a user.
+        </p>
+        <div class="request-body">
+            <p><strong>Request Body:</strong>
+            <pre>
+{
+  "role_id" : "integer (required)"
+}
+            </pre>
+        </div>
+
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "message": "Role assigned successfully"
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Assign Remove Role</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/users/{id}/remove-role</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Remove a role from a user.
+        </p>
+        <div class="request-body">
+            <p><strong>Request Body:</strong>
+            <pre>
+{
+    "message": "Role removed successfully"
+}
+</pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Assign Permission</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/users/{id}/assign-permission</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Assign a permission to a user.
+        </p>
+        <div class="request-body">
+            <p><strong>Request Body:</strong>
+            <pre>
+{
+    "permission_id" : "integer (required)"
+}
+</pre>
+        </div>
+
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "message": "Permission assigned successfully"
+}
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Remove Permission</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/users/{id}/remove-permission</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Remove a permission from a user.
+        </p>
+        <div class="request-body">
+            <p><strong>Request Body:</strong>
+            <pre>
+{
+    "message": "Permission removed successfully"
+}
+</pre>
+        </div>
+    </div>
+
+    <h2>Articles</h2>
+    <hr>
+
+    <div class="endpoint">
+        <h3>List Articles</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/articles</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>GET</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            List all articles.
+        </p>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+[
+    {
+        "id": "integer",
+        "title": "string",
+        "content": "string",
+        "author": "string",
+        "published_at": "timestamp",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+    }
+]
+            </pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Get Article</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/articles/{id}</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>GET</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Get a specific article.
+        </p>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+  {
+        "id": "integer",
+        "title": "string",
+        "content": "string",
+        "author": "string",
+        "published_at": "timestamp",
+        "created_at": "timestamp",
+        "updated_at": "timestamp"
+    }
+            </pre>
+        </div>
+    </div>
+
+
+    <div class="endpoint">
+        <h3>Create Article</h3>
+        <hr>
+
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/articles</code>
+
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>POST</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization: Bearer {token}</code>
+        </p>
+        <p>
+            <strong>Description:</strong>
+            Create a new article.
+        </p>
+        <div class="request-body">
+            <p><strong>Request Body:</strong>
+            <pre>
+{
+    "title": "string (required, max: 255)",
+    "content": "string (required)",
+    "author": "string (required)"
+}
+</pre>
+
+            </p>
+
+        </div>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "id": "integer",
+    "title": "string",
+    "content": "string",
+    "author": "string",
+    "published_at": "timestamp",
+    "created_at": "timestamp",
+    "updated_at": "timestamp"
+}</pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <h3>Update Article</h3>
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/articles/{id}</code>
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>PUT</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization
+                : Bearer {token}</code>
+            </code>
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            Update an article.
+        </p>
+
+        <div class="request-body">
+            <p><strong>Request Body:</strong></p>
+            <pre>
+{
+    "title": "string (required, max: 255)",
+    "content": "string (required)",
+    "author": "string (required)"
+}</pre>
+        </div>
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "id": "integer",
+    "title": "string",
+    "content": "string",
+    "author": "string",
+    "published_at": "timestamp",
+    "created_at": "timestamp",
+    "updated_at": "timestamp"
+}</pre>
+        </div>
+
+    </div>
+
+    <div class="endpoint">
+        <h3>Delete Article</h3>
+        <hr>
+
+        <hr>
+
+        <p>
+            <strong>URL:</strong>
+            <code>/articles/{id}</code>
+        </p>
+        <p>
+            <strong>Method:</strong>
+            <code>DELETE</code>
+        </p>
+        <p>
+            <strong>Headers:</strong>
+            <code>Authorization
+                : Bearer {token}</code>
+            </code>
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            Delete an article.
+        </p>
+
+        <div class="response">
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "message": "Article deleted successfully"
+}</pre>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

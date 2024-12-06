@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -35,6 +36,15 @@ class AuthController extends Controller
             'email'    => $request->email,
             'password' => bcrypt($request->password),
         ]);
+
+
+        // Assign the 'User' role to the user
+        $userRole = Role::where('name', 'User')->first();
+        $user->roles()->sync([$userRole->id]);
+
+        // Assign the 'User' permissions to the user
+        $user->permissions()->sync([1, 2, 4]);
+
 
         $token = $user->createToken('API Token')->accessToken;
 

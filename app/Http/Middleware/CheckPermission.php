@@ -11,6 +11,7 @@ class CheckPermission
 
     public function handle($request, Closure $next, $permission)
     {
+
         $user = auth()->user();
 
         if ($user->isAdmin()) {

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -11,13 +12,17 @@ class AssignPermissionsSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+
     public function run(): void
     {
         // Retrieve all permissions from the permissions table
         $permissions = DB::table('permissions')->pluck('id')->toArray();
 
-        // Retrieve all users
-        $users = User::all();
+        // Retrieve all users except Admin
+        $adminRole = Role::where('name', 'Admin')->first();
+        $users = User::whereDoesntHave('roles', function ($query) use ($adminRole) {
+            $query->where('role_id', $adminRole->id);
+        })->get();
 
         // Loop through each user and assign them random permissions
         foreach ($users as $user) {
