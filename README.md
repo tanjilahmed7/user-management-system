@@ -70,7 +70,7 @@ After running the `php artisan db:seed` command, the following users will be cre
 ### User
 
 - **Email**: `user@example.com`
-- **Password: `user123`
+- **Password**: `user123`
 
 ## Table of Contents
 
