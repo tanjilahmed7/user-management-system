@@ -54,7 +54,7 @@ updating, and deleting articles, managing users, roles, and permissions.
 
 ## Live Documentation URL
 
-https://documenter.getpostman.com/view/10768200/TzJx8z9z
+https://tanjilahmed.com/user-management-docs
 
 ---
 
