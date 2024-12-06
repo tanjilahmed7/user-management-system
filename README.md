@@ -60,7 +60,7 @@ https://tanjilahmed.com/user-management-docs
 
 ## Table of Contents
 
-1. [Authentication](authentication)
+1. [Authentication](#authentication)
     - [Register](#register)
     - [Login](#login)
     - [Logout](#logout)
