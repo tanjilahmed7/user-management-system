@@ -5,6 +5,12 @@ namespace App\Repositories;
 use App\Models\Article;
 use Illuminate\Support\Collection;
 
+/**
+ * ArticleRepository
+ * This class contains methods for interacting with the Article model.
+ * @package App\Repositories
+ * @version 1.0
+ */
 class ArticleRepository
 {
     /**
